@@ -23,6 +23,8 @@ textarea{
 
 .description{
   white-space: pre-wrap;
+  /* inserted text-align */
+  /* text-align: left; */
 }
 
 .time-block{
