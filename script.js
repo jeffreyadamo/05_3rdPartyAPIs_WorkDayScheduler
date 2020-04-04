@@ -8,7 +8,7 @@ var currentHour = parseInt(moment().format('h'));
 if (currentHour === 1 ||currentHour === 2 ||currentHour === 3 ||currentHour === 3 ||currentHour === 5 ){
     currentHour = currentHour + 12
 };
-var currentHour = JSON.stringify(currentHour);
+// var currentHour = JSON.stringify(currentHour);
 
 
 //spot check
@@ -18,24 +18,9 @@ console.log("The currentHour is " + currentHour);
 console.log("currentHour is a: " + typeof currentHour);
 
 
-
-
 // insert Date
 $("#currentDay").html(toDay + ", " + currentDate + "<br><br>");
 $("#currentDay").append("It is currently " + currentTime);
-
-// Insert HTML for in time-block div:
-
-//This uses div classes
-// $(".time-block").append("<div class='row hour8'>");
-// $(".hour8").append("<div class='col-md-2 hour'>8am</div>");
-// $(".hour8").append("<div class='col-md-8 description'>Text here</div>");
-// $(".hour8").append("<i class='col-md-2 fas fa-save saveBtn'></i>");
-
-
-//This uses a form
-
-//How can I do the above in a loop?
 
 // change this to a for loop to append all times from 9-5
 var timeSlot = [9 ,10,11,12,13,14,15,16,17];
@@ -46,6 +31,8 @@ for (var j=0; j<9; j++){
 console.log(timeSlot);
 console.log(timeSlot[1]);
 
+//Use a for loop to add rows for each timeBlock. Make use of variables and insert the attributes in order to not get confused or too wordy. 
+
 for(var i=0; i<timeSlot.length; i++){
     var row = $("<div>")
     row.attr("class", "row")
@@ -53,11 +40,6 @@ for(var i=0; i<timeSlot.length; i++){
     col1.attr("class","col-md-2 hour" )
     col1.text(timeSlot[i])
     
-    // var col2=$("<input>")
-    
-    // col2.addClass("col-md-8 description timeColor"+ timeSlot[i]);
-    // col2.attr("type", "text");
-    // col2.attr("data-hour",timeSlot[i])
 
     var col2BootStrap = $("<div>");
     col2BootStrap.addClass("col-md-8 form-group description");
@@ -75,10 +57,28 @@ for(var i=0; i<timeSlot.length; i++){
 }
 
 var testColor9 = $(".timeColor9");
-console.log(testColor9)
+
 
 //If I wanted to loop through all the data-hours and console log
-$(".timeColor9").addClass("present");
+// $(".timeColor9").addClass("present");
+
+console.log(typeof testColor9.data("hour"));
+testColor9data = testColor9.data("hour");
+console.log(testColor9data);
+console.log(typeof currentHour);
+
+if (currentHour === testColor9data){
+    testColor9.addClass("present")
+    console.log("color should be red")
+} else if (currentHour < testColor9data){
+    testColor9.addClass("future")
+    console.log("color should be green")
+} else {
+    testColor9.addClass("past")
+    console.log("color should be grey")
+}
+
+
 
 
 // $('[data-hour]').each(function() {
@@ -88,6 +88,11 @@ $(".timeColor9").addClass("present");
 //   $('.timeColor9').each(function() {
 //     console.log($(this).data('hour'));
 //   })
+
+// for (var a=0; a<timeSlot.length; i++){
+//     if ()
+// }
+
 
 //   var timeValue9 = $('.timeColor9').each(function() {
 //     JSON.stringify($(this).data('hour'));
