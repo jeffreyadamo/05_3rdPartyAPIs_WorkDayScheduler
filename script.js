@@ -56,28 +56,40 @@ for(var i=0; i<timeSlot.length; i++){
 
 }
 
+// timeColor# is the class where data-hour is assigned
 var testColor9 = $(".timeColor9");
 
+//I can access the data-hour out of the timeColor# class by $.data("hour")
 
-//If I wanted to loop through all the data-hours and console log
-// $(".timeColor9").addClass("present");
-
-console.log(typeof testColor9.data("hour"));
+console.log($(".timeColor9").data("hour"));
 testColor9data = testColor9.data("hour");
+
 console.log(testColor9data);
-console.log(typeof currentHour);
 
-if (currentHour === testColor9data){
-    testColor9.addClass("present")
-    console.log("color should be red")
-} else if (currentHour < testColor9data){
-    testColor9.addClass("future")
-    console.log("color should be green")
-} else {
-    testColor9.addClass("past")
-    console.log("color should be grey")
+console.log(".timeColor"+timeSlot[0])
+// if (currentHour === testColor9data){
+//     testColor9.addClass("present")
+//     console.log("color should be red")
+// } else if (currentHour < testColor9data){
+//     testColor9.addClass("future")
+//     console.log("color should be green")
+// } else {
+//     testColor9.addClass("past")
+//     console.log("color should be grey")
+// }
+
+for (a=0; a<timeSlot.length; a++){
+    if (currentHour === $(".timeColor"+timeSlot[a]).data("hour")){
+        $(".timeColor"+timeSlot[a]).addClass("present")
+        console.log("color should be red")
+    } else if (currentHour < $(".timeColor"+timeSlot[a]).data("hour")){
+        $(".timeColor"+timeSlot[a]).addClass("future")
+        console.log("color should be green")
+    } else {
+        $(".timeColor"+timeSlot[a]).addClass("past")
+        console.log("color should be grey")
+    }
 }
-
 
 
 
