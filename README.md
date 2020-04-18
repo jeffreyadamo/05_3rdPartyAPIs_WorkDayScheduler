@@ -27,9 +27,18 @@ THEN I can enter an event
 WHEN I click the save button for that timeblock
 THEN the text for that event is saved in local storage
 ```
+## Description:
+
+* JQuery used was from https://code.jquery.com/jquery-3.4.1.min.js
+* Times provided by third-party API - Moment.js: https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js
+* HTML provided was dynamically updated using JQuery to dislay time blocks
+* For loops are used to insert a new block that has the time from 9Am to 5pm, an area to describe any tasks, and a save button.
+* The save button will use Local Storage so a refresh saved data.
+* For loops and if/then statements are used to set attributes for description box based on the current time. 
+* Hovering over the button will induce a transition using the CSS styling.
 
 ## Demo:
-![Image](/Assets/WorkDay.gif)
+![Image](/Assets/WorkDay2.gif)
 
 
 ## Development Notes
