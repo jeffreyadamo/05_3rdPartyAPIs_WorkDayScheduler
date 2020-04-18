@@ -1,9 +1,8 @@
 # 05 Third-Party APIs: Work Day Scheduler
 
 ## Objective:
-Create a simple calendar application that allows the user to save events for each hour of the day. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
 
-You'll need to use the [Moment.js](https://momentjs.com/) library to work with date and time. Be sure to read the documentation carefully and concentrate on using Moment.js in the browser.
+Provide a functional work day schedule application that provides the user the current time, an area to take notes at each time hour of the day, and have each time block's color represent it's time relative to the current time.  Be able to save tasks and revisit later. 
 
 ## User Story
 
@@ -13,8 +12,27 @@ I WANT to add important events to a daily planner
 SO THAT I can manage my time effectively
 ```
 
-## Acceptance Criteria (with notes - more notes in script.js)
+## Acceptance Criteria for MVP (with notes - more notes in script.js)
 
+```
+GIVEN I am using a daily planner to create a schedule
+WHEN I open the planner
+THEN the current day is displayed at the top of the calendar
+WHEN I scroll down
+THEN I am presented with timeblocks for standard business hours
+WHEN I view the timeblocks for that day
+THEN each timeblock is color coded to indicate whether it is in the past, present, or future
+WHEN I click into a timeblock
+THEN I can enter an event
+WHEN I click the save button for that timeblock
+THEN the text for that event is saved in local storage
+```
+
+## Demo:
+![Image](/Assets/WorkDay.gif)
+
+
+## Development Notes
 
 GIVEN I am using a daily planner to create a schedule
 WHEN I open the planner
@@ -64,37 +82,42 @@ WHEN I view the timeblocks for that day
 THEN each timeblock is color coded to indicate whether it is in the past, present, or future
 ```javascript
     //Use a for loop to compare the data-hour of each timeBlock to the currentTime. I've made sure these are both strings a lot using "typeof".
-    for (var a=0; a<colorOfBlocks.length; a++){
-
-        var colorBlock = colorOfBlocks[a];
-        console.log("var colorBlock ="+colorBlock);
-        console.log("var colorBlock is a "+typeof colorBlock);
-        console.log($('.'+colorBlock+'').data('hour'));
-
-        var colorofBlocksdata = $("."+colorOfBlocks[a]+"").data("hour");
-        console.log(colorofBlocksdata);
-
-        //Start with all of them setup as gray
-        $('.'+colorOfBlocks[a]+'').addClass("past");
-
-        //Setup conditional if/else statements to assign color to class
-
-        if (colorofBlocksdata > currentTime){
-            $('.'+colorOfBlocks[a]+'').addClass("future");
-            console.log("color should be green");
-        } else if (colorofBlocksdata < currentTime) {
-            $('.'+colorOfBlocks[a]+'').addClass("past");
-            console.log("color should be gray");
-        } else if (colorofBlocksdata === currentTime){
-            $('.'+colorOfBlocks[a]+'').addClass("present");
-            console.log("color should be red");
-        } else{
-            
-        } 
-    }
+for (var a = 0; a < timeClass.length; a++) {
+  var colorBlock = timeClass[a];
+  var colorofBlocksdata = $("." + timeClass[a] + "").data("hour");
+  //Setup conditional if/else statements to assign color to class
+  
+  if (colorofBlocksdata < currentTime) {
+    $("." + timeClass[a] + "").addClass("past");
+    console.log(timeClass[a] +" color should be gray");
+  } 
+  if (colorofBlocksdata === currentTime) {
+    $("." + timeClass[a] + "").addClass("present");
+    console.log(timeClass[a] +" color should be red");
+  }
+   if (colorofBlocksdata > currentTime) {
+    $("." + timeClass[a] + "").addClass("future");
+    console.log(timeClass[a] +" color should be green");
+  } 
 ```
 * I struggled to get this to work correctly. It seems to want to set the first timeBlock as future and will be green when it is not 9AM. I switched between using strings and numbers and went with the final string output of the "data-hour" of the timeBlock, which seems to be the format from moment.js
-* I spent a long time on this.
+### PATCH FOR 9AM COLOR ERROR - 4/18/2020:
+* Fixed with a number specific if/then statement:
+
+```javascript
+////////////PATCH FOR 9AM COLOR: System thinks 9AM is greater than any other value, so will assign a "future" class. Rewrote an if/then statement specifically for the number 9 and the first number of the currentTime. Since 9 should be higher than 1-8, this works with one digit. For 10, 11, and 12, we'll go back to comparing 9 to currentTime
+
+  $(".9AMcolor").removeClass("future");
+    if(9 > currentTime[0]){
+      $(".9AMcolor").addClass("past");
+    }
+    if(9 < currentTime.slice(0,2)){
+      $(".9AMcolor").addClass("future");
+    }
+    if(9 === currentTime[0]){
+      $(".9AMcolor").addClass("present");
+    }
+```
 
 
 WHEN I click into a timeblock
@@ -148,23 +171,3 @@ THEN the saved events persist
 
     loadData();
 ```
-* I struggled with this part. The bug here is upon refreshing, everything is still there (yay!), but when hitting a save button, it erases everything except for the last entry. 
-
-## Fin.
-
-The following animation demonstrates what the application should be doing:
-
-
-
-![day planner demo](./Assets/05-third-party-apis-homework-demo.gif)
-
-## Review
-
-You are required to submit the following for review:
-
-* The URL of the deployed application.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
-
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.

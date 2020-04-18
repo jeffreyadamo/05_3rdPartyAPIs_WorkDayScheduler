@@ -101,32 +101,22 @@ var timeClass = [
 //Use a for loop to compare the data-hour of each timeBlock to the currentTime. I've made sure these are both strings a lot using "typeof".
 for (var a = 0; a < timeClass.length; a++) {
   var colorBlock = timeClass[a];
-  console.log("var colorBlock =" + colorBlock);
-  console.log("var colorBlock is a " + typeof colorBlock);
-  console.log($("." + colorBlock + "").data("hour"));
-
   var colorofBlocksdata = $("." + timeClass[a] + "").data("hour");
-  console.log(colorofBlocksdata);
-
-  //Start with all of them setup as gray
-  // $("." + timeClass[a] + "").addClass("past");
-  console.log(currentTime);
-
   //Setup conditional if/else statements to assign color to class
-//What if we made these all ifs:
   
   if (colorofBlocksdata < currentTime) {
     $("." + timeClass[a] + "").addClass("past");
-    console.log("color should be gray");
+    console.log(timeClass[a] +" color should be gray");
   } 
   if (colorofBlocksdata === currentTime) {
     $("." + timeClass[a] + "").addClass("present");
-    console.log("color should be red");
+    console.log(timeClass[a] +" color should be red");
   }
    if (colorofBlocksdata > currentTime) {
     $("." + timeClass[a] + "").addClass("future");
-    console.log("color should be green");
+    console.log(timeClass[a] +" color should be green");
   } 
+ 
 ////////////PATCH FOR 9AM COLOR: System thinks 9AM is greater than any other value, so will assign a "future" class. Rewrote an if/then statement specifically for the number 9 and the first number of the currentTime. Since 9 should be higher than 1-8, this works with one digit. For 10, 11, and 12, we'll go back to comparing 9 to currentTime
 
   $(".9AMcolor").removeClass("future");
@@ -140,19 +130,11 @@ for (var a = 0; a < timeClass.length; a++) {
       $(".9AMcolor").addClass("present");
     }
 
-
-
-  // if (colorofBlocksdata < currentTime) {
-  //   $("." + timeClass[a] + "").addClass("past");
-  //   console.log("color should be gray");
-  // } 
-  // if (colorofBlocksdata === currentTime) {
-  //   $("." + timeClass[a] + "").addClass("present");
-  //   console.log("color should be red");
-  // else {
-  // }
 }
 
+
+console.log("-------------------");
+console.log("Notice how it thinks 9AM is > currentTime and labels it green? This is a bug I cannot locate. PATCH to correct for 9AMcolor block implemented")
 console.log("-------------------");
 
 //Set variables we are going to save and get outside of the onclick:
@@ -169,9 +151,10 @@ $(".saveBtn").on("click", function () {
 
   //Let's save data: create variables for the hour & input(value)
   storeHour = $(this).data("hour") + "color";
-  console.log(storeHour);
+  // console.log(storeHour);
   storeInput = $("." + storeHour + "").val();
-  console.log(storeInput);
+  console.log("Description of time block says: " + storeInput);
+  console.log("-------------------");
 
   storedData = { storeHour, storeInput };
   readyToSave.push(storedData);
@@ -199,7 +182,7 @@ var keyNames = [
 function loadData() {
   for (var i = 0; i < keyNames.length; i++) {
     var storedScore = JSON.parse(localStorage.getItem(keyNames[i]));
-    console.log(storedScore);
+    // console.log(storedScore);
 
     if (storedScore !== null) {
       $("." + timeClass[i] + "").val(storedScore);
@@ -208,10 +191,3 @@ function loadData() {
 }
 
 loadData();
-
-console.log(currentTime);
-if (currentTime > "9AM"){
-  console.log("current time is greater than 9AM");
-}
-
-// $(".9AMcolor").addClass("past"); !important;
