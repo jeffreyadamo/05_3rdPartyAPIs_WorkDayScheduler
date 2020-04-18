@@ -5,17 +5,23 @@ var currentTime = moment().format("hA");
 var currentHour = parseInt(moment().format("h"));
 
 //spot check
-if (currentTime < "7PM") {
-  console.log("I can read time by string");
-}
 console.log("The current time is: " + currentTime);
-console.log("currentTime is a: " + typeof currentTime);
+console.log("currentTime comes from Moment as a: " + typeof currentTime);
+
+if (currentTime < "7PM") {
+  console.log("Current time is <7PM");
+} else {
+  console.log("It should be after 7PM");
+}
+
+console.log("------------------");
 
 // Insert Date (and time)
 $("#currentDay").html(toDay + ", " + currentDate + "<br><br>");
 $("#currentDay").append("It is currently " + currentTime);
 
-// Set an array up to create the desired timeBlocks for
+/////////////////////////////////////////////////////////////////////////
+// Set an array up to create the desired timeBlocks
 var timesOfday = [
   "9AM",
   "10AM",
@@ -46,7 +52,7 @@ for (var i = 0; i < timesOfday.length; i++) {
   col2textArea = $('<textarea class="form-control" rows="3"></textarea>');
   col2textArea.addClass(timesOfday[i] + "color");
   col2textArea.attr("data-hour", timesOfday[i]);
-  col2textArea.attr("data-Num",[i])
+  col2textArea.attr("data-Num", [i]);
   col2BootStrap.append(col2textArea);
 
   var col3 = $("<button>");
@@ -59,25 +65,26 @@ for (var i = 0; i < timesOfday.length; i++) {
 }
 
 //data-hour is assigned in each row and column
-var colorLocation9AM = $(".9AMcolor");
+// var colorLocation9AM = $(".9AMcolor");
 
-//I can access the data-hour out of the timeColor# class by $.data("hour")
-console.log(colorLocation9AM.data("hour")); //should read 9AM
+// //I can access the data-hour out of the timeColor# class by $.data("hour")
+// console.log(colorLocation9AM.data("hour")); //should read 9AM
 
-//what kind of data are we working with?
+// //what kind of data are we working with?
 
-var data9AM = colorLocation9AM.data("hour");
-console.log("data-hour is stored as a " + typeof data9AM); //string
+// var data9AM = colorLocation9AM.data("hour");
+// console.log("data-hour is stored as a " + typeof data9AM); //string
 
-//what kind of data are we pulling from moment.js?
-console.log("currentTime is stored as a " + typeof currentTime); //string
+// //what kind of data are we pulling from moment.js?
+// console.log("currentTime is stored as a " + typeof currentTime); //string
 
 // var currentTime = JSON.stringify(currentTime);
 
 //Change the color of the blocks according to their time: I've tried this many ways. Here is the latest.
 
 //set an array to the classnames of the timeBlocks
-var colorOfBlocks = [
+//Change colorOfBlocks to timeClass
+var timeClass = [
   "9AMcolor",
   "10AMcolor",
   "11AMcolor",
@@ -88,35 +95,62 @@ var colorOfBlocks = [
   "4PMcolor",
   "5PMcolor",
 ];
+//Start with all of them setup as gray
+// $("." + timeClass[a] + "").addClass("past");
 
 //Use a for loop to compare the data-hour of each timeBlock to the currentTime. I've made sure these are both strings a lot using "typeof".
-for (var a = 0; a < colorOfBlocks.length; a++) {
-  var colorBlock = colorOfBlocks[a];
+for (var a = 0; a < timeClass.length; a++) {
+  var colorBlock = timeClass[a];
   console.log("var colorBlock =" + colorBlock);
   console.log("var colorBlock is a " + typeof colorBlock);
   console.log($("." + colorBlock + "").data("hour"));
 
-  var colorofBlocksdata = $("." + colorOfBlocks[a] + "").data("hour");
+  var colorofBlocksdata = $("." + timeClass[a] + "").data("hour");
   console.log(colorofBlocksdata);
 
   //Start with all of them setup as gray
-  $("." + colorOfBlocks[a] + "").addClass("past");
+  // $("." + timeClass[a] + "").addClass("past");
   console.log(currentTime);
-  
 
   //Setup conditional if/else statements to assign color to class
-
-  if (colorofBlocksdata > currentTime) {
-    $("." + colorOfBlocks[a] + "").addClass("future");
-    console.log("color should be green");
-  } else if (colorofBlocksdata < currentTime) {
-    $("." + colorOfBlocks[a] + "").addClass("past");
+//What if we made these all ifs:
+  
+  if (colorofBlocksdata < currentTime) {
+    $("." + timeClass[a] + "").addClass("past");
     console.log("color should be gray");
-  } else if (colorofBlocksdata === currentTime) {
-    $("." + colorOfBlocks[a] + "").addClass("present");
+  } 
+  if (colorofBlocksdata === currentTime) {
+    $("." + timeClass[a] + "").addClass("present");
     console.log("color should be red");
-  } else {
   }
+   if (colorofBlocksdata > currentTime) {
+    $("." + timeClass[a] + "").addClass("future");
+    console.log("color should be green");
+  } 
+////////////PATCH FOR 9AM COLOR: System thinks 9AM is greater than any other value, so will assign a "future" class. Rewrote an if/then statement specifically for the number 9 and the first number of the currentTime. Since 9 should be higher than 1-8, this works with one digit. For 10, 11, and 12, we'll go back to comparing 9 to currentTime
+
+  $(".9AMcolor").removeClass("future");
+    if(9 > currentTime[0]){
+      $(".9AMcolor").addClass("past");
+    }
+    if(9 < currentTime.slice(0,2)){
+      $(".9AMcolor").addClass("future");
+    }
+    if(9 === currentTime[0]){
+      $(".9AMcolor").addClass("present");
+    }
+
+
+
+  // if (colorofBlocksdata < currentTime) {
+  //   $("." + timeClass[a] + "").addClass("past");
+  //   console.log("color should be gray");
+  // } 
+  // if (colorofBlocksdata === currentTime) {
+  //   $("." + timeClass[a] + "").addClass("present");
+  //   console.log("color should be red");
+  // else {
+  // }
 }
 
 console.log("-------------------");
@@ -142,7 +176,7 @@ $(".saveBtn").on("click", function () {
   storedData = { storeHour, storeInput };
   readyToSave.push(storedData);
 
-//   localStorage.setItem("timeClass,text", JSON.stringify(readyToSave));
+  //   localStorage.setItem("timeClass,text", JSON.stringify(readyToSave));
   localStorage.setItem("todos" + storeHour, JSON.stringify(storeInput));
 
   loadData();
@@ -150,19 +184,34 @@ $(".saveBtn").on("click", function () {
 
 // $(".9AMcolor").val("Test");
 //Let's load this:
-var keyNames = ["todos9AMcolor","todos10AMcolor","todos11AMcolor","todos12PMcolor","todos1PMcolor","todos2PMcolor","todos3PMcolor","todos4PMcolor","todos5PMcolor"];
-
+var keyNames = [
+  "todos9AMcolor",
+  "todos10AMcolor",
+  "todos11AMcolor",
+  "todos12PMcolor",
+  "todos1PMcolor",
+  "todos2PMcolor",
+  "todos3PMcolor",
+  "todos4PMcolor",
+  "todos5PMcolor",
+];
 
 function loadData() {
-    for (var i=0; i<keyNames.length; i++){
-        var storedScore = JSON.parse(localStorage.getItem(keyNames[i]))
-        console.log(storedScore);
+  for (var i = 0; i < keyNames.length; i++) {
+    var storedScore = JSON.parse(localStorage.getItem(keyNames[i]));
+    console.log(storedScore);
 
-        if (storedScore!==null) {
-        $('.'+colorOfBlocks[i]+'').val(storedScore);
-
-        }
-}
+    if (storedScore !== null) {
+      $("." + timeClass[i] + "").val(storedScore);
+    }
+  }
 }
 
 loadData();
+
+console.log(currentTime);
+if (currentTime > "9AM"){
+  console.log("current time is greater than 9AM");
+}
+
+// $(".9AMcolor").addClass("past"); !important;
