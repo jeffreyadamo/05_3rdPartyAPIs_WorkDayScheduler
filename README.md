@@ -1,7 +1,7 @@
 # 05 Third-Party APIs: Work Day Scheduler
 
-Jeffrey Adamo
-UW Full Stack BootCamp
+Jeffrey Adamo  
+UW Full Stack BootCamp  
 [Work Day Scheduler](https://jeffreyadamo.github.io/05_3rdPartyAPIs_WorkDayScheduler/)
 
 ## Objective:
