@@ -1,5 +1,9 @@
 # 05 Third-Party APIs: Work Day Scheduler
 
+Jeffrey Adamo
+UW Full Stack BootCamp
+[Work Day Scheduler](https://jeffreyadamo.github.io/05_3rdPartyAPIs_WorkDayScheduler/)
+
 ## Objective:
 
 Provide a functional work day schedule application that provides the user the current time, an area to take notes at each time hour of the day, and have each time block's color represent it's time relative to the current time.  Be able to save tasks and revisit later. 
